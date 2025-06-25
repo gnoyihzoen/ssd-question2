@@ -6,7 +6,7 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - jenkins_home:/var/jenkins_home
+      - jenkins_home:/var/jenkins_home 
     environment:
       - SONAR_HOST_URL=http://sonarqube:9000
 
