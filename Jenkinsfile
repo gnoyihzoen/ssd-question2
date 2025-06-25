@@ -21,7 +21,7 @@ pipeline {
                       -Dsonar.sources=. \
                       -Dsonar.host.url=http://sonarqube:9000 \
                       -Dsonar.login=admin \
-                      -Dsonar.password=your_student_id_here
+                      -Dsonar.password=2301858
                     """
                 }
             }
