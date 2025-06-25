@@ -33,7 +33,7 @@ services:
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
       - SONAR_JDBC_USERNAME=admin
-      - SONAR_JDBC_PASSWORD=2301858  # replace with your actual ID
+      - SONAR_JDBC_PASSWORD=2301858
     volumes:
       - sonarqube_data:/opt/sonarqube/data
       - sonarqube_extensions:/opt/sonarqube/extensions
@@ -43,6 +43,3 @@ volumes:
   jenkins_home:
   sonarqube_data:
   sonarqube_extensions:
-
-
-# 56f85626a8af40d8b79252e24e664bde
