@@ -16,13 +16,13 @@ pipeline {
       steps {
         withSonarQubeEnv('MySonar') {
           withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-            sh '''
-              ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
+            sh """
+            ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
                 -Dsonar.projectKey=ssd-question2 \
                 -Dsonar.sources=. \
                 -Dsonar.host.url=http://sonarqube:9000 \
-                -Dsonar.token=$SONAR_TOKEN
-            '''
+                -Dsonar.token=${SONAR_TOKEN}
+            """
           }
         }
       }
@@ -30,7 +30,7 @@ pipeline {
 
     stage('Quality Gate') {
       steps {
-        timeout(time: 1, unit: 'MINUTES') {
+        timeout(time: 5, unit: 'MINUTES') {
           waitForQualityGate abortPipeline: true
         }
       }
