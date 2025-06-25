@@ -1,28 +1,41 @@
 pipeline {
     agent any
 
+    tools {
+        sonarQube 'SonarScanner'
+    }
+
+    environment {
+        SONARQUBE_SCANNER_HOME = tool 'SonarScanner'
+    }
+
     stages {
-        stage('Clone') {
+        stage('Checkout') {
             steps {
-                git url: 'https://your-repo-url.git'
+                checkout scm
             }
         }
 
-        stage('Install Dependencies') {
+        stage('SonarQube Analysis') {
             steps {
-                sh 'pip install -r webapp/requirements.txt'
+                withSonarQubeEnv('MySonar') {
+                    sh """
+                    ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
+                      -Dsonar.projectKey=test_project \
+                      -Dsonar.sources=. \
+                      -Dsonar.host.url=http://sonarqube:9000 \
+                      -Dsonar.login=admin \
+                      -Dsonar.password=2301858
+                    """
+                }
             }
         }
 
-        stage('Unit Tests') {
+        stage("Quality Gate") {
             steps {
-                sh 'python3 webapp/test_webapp.py'
-            }
-        }
-
-        stage('UI Test') {
-            steps {
-                sh 'curl -s --fail http://web/ || exit 1'
+                timeout(time: 1, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
             }
         }
     }
