@@ -1,12 +1,8 @@
 pipeline {
     agent any
 
-    tools {
-        sonarQube 'SonarScanner'
-    }
-
     environment {
-        SONARQUBE_SCANNER_HOME = tool 'SonarScanner'
+        SONARQUBE_SCANNER_HOME = tool 'SonarScanner'  
     }
 
     stages {
@@ -18,14 +14,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('MySonar') {
+                withSonarQubeEnv('MySonar') { 
                     sh """
                     ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
-                      -Dsonar.projectKey=test_project \
+                      -Dsonar.projectKey=ssd-question2 \
                       -Dsonar.sources=. \
                       -Dsonar.host.url=http://sonarqube:9000 \
                       -Dsonar.login=admin \
-                      -Dsonar.password=2301858
+                      -Dsonar.password=your_student_id_here
                     """
                 }
             }
