@@ -37,7 +37,7 @@ pipeline {
       steps {
         sh '''
           . ${VENV_DIR}/bin/activate
-          pytest webapp/tests/
+          PYTHONPATH=webapp pytest webapp/tests/
         '''
       }
     }
