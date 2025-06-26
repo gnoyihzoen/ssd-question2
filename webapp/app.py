@@ -1,10 +1,12 @@
 from flask import Flask, request, render_template, redirect, url_for
 import re
+import os
 
 app = Flask(__name__)
 
 def load_common_passwords():
-    with open('common_passwords.txt') as f:
+    file_path = os.path.join(os.path.dirname(__file__), "common_passwords.txt")
+    with open(file_path) as f:
         return set(p.strip() for p in f.readlines())
 
 COMMON_PASSWORDS = load_common_passwords()
