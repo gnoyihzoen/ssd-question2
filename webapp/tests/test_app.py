@@ -12,7 +12,7 @@ def test_home_page(client):
 
 test_password_invalid = "123"
 def test_invalid_password(client):
-    rv = client.post('/', data={'password': '123'}, follow_redirects=True)
+    rv = client.post('/', data={'password': test_password_invalid}, follow_redirects=True)
     assert b'Invalid password' in rv.data
 
 test_password_valid = "StrongP@ssw0rd!"
