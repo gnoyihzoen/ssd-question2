@@ -19,7 +19,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'  # or your version
+          python-version: '3.11'
 
       - name: Install dependencies
         run: |
@@ -29,11 +29,12 @@ jobs:
       - name: Install SonarScanner
         run: |
           wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
-          unzip sonar-scanner-cli-*.zip
-          mv sonar-scanner-* sonar-scanner
+          unzip sonar-scanner-cli-5.0.1.3006-linux.zip
+          export PATH="$PWD/sonar-scanner-5.0.1.3006-linux/bin:$PATH"
+          echo "SonarScanner installed"
 
       - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          ./sonar-scanner/bin/sonar-scanner
+          ./sonar-scanner-5.0.1.3006-linux/bin/sonar-scanner
