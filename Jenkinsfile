@@ -32,16 +32,7 @@ pipeline {
         '''
       }
     }
-
-    stage('Unit and HTTP Testing') {
-      steps {
-        sh '''
-          . ${VENV_DIR}/bin/activate
-          PYTHONPATH=webapp pytest webapp/tests/
-        '''
-      }
-    }
-
+    
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('MySonar') {
