@@ -1,4 +1,4 @@
-name: SonarCloud Analysis
+name: SonarCloud Python Analysis
 
 on:
   push:
@@ -8,33 +8,32 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build and Analyze on SonarCloud
+  sonarcloud:
+    name: SonarCloud Scan
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          java-version: '17'
-          distribution: 'temurin'
+          python-version: '3.11'  # or your version
 
-      - name: Cache Maven packages
-        uses: actions/cache@v4
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-maven
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-      - name: Build and analyze with SonarCloud
+      - name: Install SonarScanner
+        run: |
+          wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+          unzip sonar-scanner-cli-*.zip
+          mv sonar-scanner-* sonar-scanner
+
+      - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          mvn clean verify sonar:sonar \
-            -Dsonar.projectKey=gnoyihzoen_ssd-question2 \
-            -Dsonar.organization=gnoyihzoen \
-            -Dsonar.login=$SONAR_TOKEN
+          ./sonar-scanner/bin/sonar-scanner
