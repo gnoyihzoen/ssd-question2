@@ -8,3 +8,7 @@ __pycache__/
 # Optional: Ignore OS-specific files
 .DS_Store
 Thumbs.db
+
+odc-data/
+odc-reports/
+
